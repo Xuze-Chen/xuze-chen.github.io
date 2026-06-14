@@ -1,6 +1,9 @@
-# My 30-Month Plan
+---
+title: My 30-Month Plan
+date: 2026-06-14
+---
 
-## Who I am
+# Who I am
 
 Hi, I’m Xuze Chen. I recently graduated from the University of Edinburgh, where I studied Applied Mathematics. I’m now preparing to start a master’s degree in Analysis at UC Berkeley.
 
@@ -8,7 +11,7 @@ This site is a place for me to write through a transition I’m still figuring o
 
 I’m mainly writing for myself. But I also hope these posts may be useful to someone who comes from a similar background, wants to move toward robotics or RL, and is not quite sure where to begin.
 
-## The three phases
+# The three phases
 
 I have a rough plan for the next thirty months, though I expect it to change as I learn more.
 
