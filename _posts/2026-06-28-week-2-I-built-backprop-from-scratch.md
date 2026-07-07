@@ -13,7 +13,7 @@ Saturday was MNIST. Instead of reaching for `nn.Module` and an optimizer, I kept
 
 The biggest lesson was initialization. With weights straight out of 'torch.randn', test accuracy got stuck around 95%. Scaling the initial weights by 0.01 brought it to 98.03%. Big random weights make big logits, so the network starts out confidently wrong and spends its first epochs recovering. I was surprised that such a small change made that much difference.
 
-![MNIST training loss](week2_mnist.png)
+![MNIST training loss](/assets/images/week2_mnist.png)
 
 Next week I'll keep going with the series. Karpathy is such a good teacher that I'm actually looking forward to it. This week was the first time I trained a model myself and watched it work, and I didn't expect that to feel as good as it did.
 
