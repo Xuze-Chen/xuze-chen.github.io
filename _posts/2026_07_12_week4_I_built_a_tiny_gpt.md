@@ -3,16 +3,16 @@ title: "Week 4: I built a tiny GPT"
 date: 2026-07-12
 ---
 
-This week, I worked through Karpathy's *Let's build GPT* lecture and built a small character-level GPT from scratch. Starting with a bigram model and ending with a complete Transformer made the architecture feel much less distant.
+This week I worked through Andrej Karpathy's "Let's build GPT" lecture and built a small GPT from scratch. It models text one character at a time. The lecture starts from a plain bigram model and grows it, piece by piece, into a full Transformer. Watching that happen made the architecture feel far less mysterious than it did a month ago.
 
-From token and positional embeddings to masked self-attention, multiple attention heads, feed-forward layers, residual connections, and LayerNorm. The part that took me longest was understanding how Q, K, and V fit together. It was also the part I found most fascinating. It was surprising that such a compact piece of code could mimic a simple human-like behavior.
+Along the way I implemented token and positional embeddings, masked self attention with multiple heads, feedforward layers, residual connections, and LayerNorm. The part that took me longest was understanding how Q, K, and V actually fit together. It was also the part I found most fascinating. In fact, it still surprises me that such a compact piece of code can imitate something as human as language.
 
-Rebuilding the model without following the video line by line also made me pay closer attention to every tensor shape. I noticed a small discrepancy in the lecture code: the attention scores were scaled using C, the full embedding dimension, even though each head’s queries and keys have dimension head_size. I changed the scaling factor to k.shape[-1]**-0.5, and finding this mismatch by following the dimensions was a small but especially satisfying moment.
+I made a point of rebuilding the model myself instead of copying the video line by line. That meant justifying every tensor shape as I went. The habit paid off. I noticed a small discrepancy in the lecture code. The attention scores are scaled using C, the full embedding dimension. But each head's queries and keys only have dimension head_size. So I changed the scaling factor to k.shape[-1]**-0.5. Catching that mismatch purely by tracing shapes through the network was a small moment, but an unusually satisfying one.
 
-After the Shakespeare version worked, I applied the same model to a Chinese text and tuned the context length, embedding size, number of heads, and learning rate myself. The final model had 1.84 million parameters. Over 3,000 training steps, the training loss fell from 8.47 to 3.57, while the validation loss fell from 8.47 to 4.66. The validation loss reached its lowest reported value of 4.63 at step 2,500 before ticking up slightly. Watching the loss fall on a text I had chosen, using a model I had rebuilt and tuned myself, was the most rewarding part of the week.
+For training data I chose Water Margin, one of the classic Chinese novels. The model has 1.84 million parameters. After some tuning, it brought training loss from 8.47 down to 3.57, and validation loss settled at 4.63. Around step 2,500, though, the validation loss stopped improving while training loss kept falling. That is a sign the model was starting to overfit the relatively small dataset. Even so, the generated passages already carry recognizable structure and style. I will take that as a win :)
 
-![Training results for my Chinese character-level GPT](/assets/img/week4/chinese-gpt-training.png)
+![Training results](/assets/images/week4.png)
 
-I kept up with the math too, reviewing random variables, expectation and variance, common probability distributions, covariance and correlation, conditional expectation, and the law of total expectation.
+The math continued in parallel. This week I reviewed random variables, expectation and variance, the common probability distributions, covariance and correlation, conditional expectation, and the law of total expectation.
 
-I also turned the lecture into a set of detailed notes on GitHub, filling in the intermediate steps and recording the implementation details I found easiest to miss, including the attention-scaling issue above. If you are working through the same lecture, I hope they help. Next week, I will officially begin reinforcement learning, and I am excited to finally start.
+As usual, my notes are up on GitHub. I added explanations for a few details the lecture does not spell out. They are the kind that can quietly trip you up if you are coding along. So if you are working through the same lecture, I hope they save you some time. Next week I officially begin reinforcement learning. I am excited to finally get started!
