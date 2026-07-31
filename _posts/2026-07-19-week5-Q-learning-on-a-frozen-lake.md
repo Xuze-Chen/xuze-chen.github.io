@@ -11,7 +11,7 @@ The hardest part of the week was a bug that never raises an error. I initialized
  
 Once it was learning properly, the next question was how well. The training curve leveled off around 0.63. But that average is taken while the agent is still exploring and still updating. So I froze the Q table and evaluated it greedily over 10,000 episodes instead. It scored 0.743. Then I drew the policy out to see what it had settled on.
  
-![Learned policy and value function](/assets/policy_4x4.png)
+![Learned policy and value function](/assets/images/policy_4x4.png)
  
 One square gave me pause. At the start state the learned action is to push left, into a wall. That looked wrong until I compared it with pushing down. Both reach the square below a third of the time, since a slip is always perpendicular to the direction I aim. The difference is the other two thirds. Aiming left, those slips leave me exactly where I am, because left and up are both walls. Aiming down, one of them pushes me right, away from the route. Nothing in this environment charges me for standing still. So waiting is cheaper than drifting somewhere worse.
  
