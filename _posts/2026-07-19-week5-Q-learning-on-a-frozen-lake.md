@@ -1,5 +1,7 @@
-
-
+---
+title: "Week 5: Q-learning on a frozen lake"
+date: 2026-07-19
+---
 
 This week, reinforcement learning officially began. I spent it on the first five lectures of David Silver's course, which cover most of the foundations. For a month my working words had been loss, gradient, and parameter. Now they are return, value, and policy. The game underneath is the same, though: define an objective and optimize it. To make sure the ideas actually landed, I built one of the environments from the lectures myself.
  
