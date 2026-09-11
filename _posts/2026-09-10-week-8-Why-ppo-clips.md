@@ -1,5 +1,5 @@
 ---
-title: "Week 8: Why PPO clips (and what happens if it doesn't)"
+title: "Week 8: Why PPO clips"
 date: 2026-09-10
 math: true
 ---
