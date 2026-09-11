@@ -24,8 +24,6 @@ $$
 
 I plotted the two cases below. When the advantage is positive, the objective goes flat once $r$ exceeds $1+\epsilon$. There is no extra credit for pushing further. When the advantage is negative, it goes flat below $1-\epsilon$.
 
-I plotted the two cases below. When the advantage is positive, the objective goes flat once $r$ exceeds $1+\epsilon$. There is no extra credit for pushing further. When the advantage is negative, it goes flat below $1-\epsilon$.
-
 ![The clipped objective for a positive and a negative advantage](/assets/images/ppo_clip.png)
 
 The min is a bit trickier to understand. Clipping alone flattens both ends of the objective. The min makes that flattening selective. If the ratio moves in the favorable direction and crosses the clipping threshold, the objective stops rewarding further movement. But if it goes too far in the wrong direction, the min keeps the unclipped term. Moving further in that direction still lowers the objective, so the optimizer has an incentive to move the ratio back.
@@ -42,4 +40,4 @@ On CartPole-v1, PPO reached the maximum score of 500 while VPG stayed below 350.
 
 The results were encouraging, but they left me with two questions. How much of the improvement came from reusing the data, and how much came from clipping? I also want to understand why my first PPO run on HalfCheetah fell behind last week's tuned VPG.
 
-That's what I want to work through next week. . I'll write up what I find in the next post, along with the HalfCheetah results. I'll also walk through my PPO implementation and the invariant checks that caught my bugs. See you next week :)
+That's what I want to work through next week. I'll write up what I find in the next post, along with the HalfCheetah results. I'll also walk through my PPO implementation and the invariant checks that caught my bugs. See you next week :)
