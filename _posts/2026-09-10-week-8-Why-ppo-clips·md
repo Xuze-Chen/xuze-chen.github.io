@@ -1,0 +1,45 @@
+---
+title: "Week 8: Why PPO clips (and what happens if it doesn't)"
+date: 2026-09-10
+math: true
+---
+
+Last week, I learned to read a training curve. The number I came to trust most was the KL divergence between consecutive policies. It helped me judge whether an update was taking the policy too far. This week, keeping those updates small became a design problem. PPO brings that concern into the objective itself.
+
+My VPG loop had a simple rule. Collect a batch, take one policy gradient step, then throw the batch away. There is a reason for that last part. The gradient estimate is based on data from the policy that collected it. Once the policy changes, the batch no longer comes from the policy we are updating. On HalfCheetah, that meant 5,000 steps of simulation for one small nudge. 
+
+The natural next step is to reuse the batch. We can account for changes in action probabilities with the ratio
+
+$$
+r = \frac{\pi_\theta(a \mid s)}{\pi_{\text{old}}(a \mid s)}.
+$$
+
+Multiplying the advantage by $r$ gives us an importance sampling correction. But it also leaves the optimizer a loophole. When the advantage is positive, $rA$ keeps increasing with $r$. The optimizer can keep raising the probability of one lucky action, even as the policy moves far from the one that collected the data. Yet the batch still reflects the states and advantages of the old policy. The further we move away, the less reliable that objective can become.
+
+PPO addresses this with two operations, a clip and a minimum. For each sample, the objective is
+
+$$
+L = \min\big(rA,\ \mathrm{clip}(r,\ 1-\epsilon,\ 1+\epsilon)\,A\big).
+$$
+
+I plotted the two cases below. When the advantage is positive, the objective goes flat once $r$ exceeds $1+\epsilon$. There is no extra credit for pushing further. When the advantage is negative, it goes flat below $1-\epsilon$.
+
+I plotted the two cases below. When the advantage is positive, the objective goes flat once $r$ exceeds $1+\epsilon$. There is no extra credit for pushing further. When the advantage is negative, it goes flat below $1-\epsilon$.
+
+![The clipped objective for a positive and a negative advantage](/assets/images/ppo_clip.png)
+
+The min is a bit trickier to understand. Clipping alone flattens both ends of the objective. The min makes that flattening selective. If the ratio moves in the favorable direction and crosses the clipping threshold, the objective stops rewarding further movement. But if it goes too far in the wrong direction, the min keeps the unclipped term. Moving further in that direction still lowers the objective, so the optimizer has an incentive to move the ratio back.
+
+Without clipping, reusing the batch can let the ratios drift and the KL grow sharply. The policy can end up far from where the data provides useful guidance. This is the risk of an excessively large policy update described in the [PPO paper](https://arxiv.org/abs/1707.06347). Alternatively, I can keep the conservative update schedule and collect fresh data after every step. That brings me back to VPG. I measured the cost of that choice.
+
+I tested my VPG and PPO implementations on CartPole-v1 and Pendulum-v1, with three seeds per method. In each environment, I used the same step budget and GAE settings, changing only the policy update.
+
+![PPO vs VPG on CartPole-v1, three seeds each, 100,000 steps](/assets/images/cartpole_compare.png)
+ 
+![PPO vs VPG on Pendulum-v1, three seeds each, 200,000 steps](/assets/images/pendulum_compare.png)
+
+On CartPole-v1, PPO reached the maximum score of 500 while VPG stayed below 350. On Pendulum-v1, PPO settled near −200, compared with about −900 for VPG.
+
+The results were encouraging, but they left me with two questions. How much of the improvement came from reusing the data, and how much came from clipping? I also want to understand why my first PPO run on HalfCheetah fell behind last week's tuned VPG.
+
+That's what I want to work through next week. . I'll write up what I find in the next post, along with the HalfCheetah results. I'll also walk through my PPO implementation and the invariant checks that caught my bugs. See you next week :)
