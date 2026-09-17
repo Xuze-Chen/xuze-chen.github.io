@@ -48,7 +48,6 @@ I added this change back to the aligned build and tested three paired seeds. It 
 
 Here is a ninety second walkthrough of the project.
 
-{% include embed/video.html src='/assets/videos/ppo_demo_90s.mp4' %}
 
 ## If I did it again
 
