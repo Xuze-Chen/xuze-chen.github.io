@@ -55,4 +55,4 @@ I would run five seeds before trusting a number and compare with a reference bef
 
 In my first build, the norm was between 12 and 26 against a clipping threshold of 0.5. That meant the gradients were being scaled down by a factor of about 25 to 50. Without logging the norm, I had no way to see how much clipping was doing.
 
-The code and complete logs are on GitHub as [ppo-from-scratch](https://github.com/Xuze-Chen/ppo-from-scratch). The training curves are collected in a [W&B report](WANDB_REPORT_URL).
+The code and every log are on GitHub as [ppo-from-scratch](https://github.com/Xuze-Chen/ppo-from-scratch), and the runs are on [W&B](https://wandb.ai/xuzechen-university-of-california-berkeley/ppo-from-scratch). 
